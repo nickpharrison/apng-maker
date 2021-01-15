@@ -1,0 +1,28 @@
+{
+  "name": "apng-maker",
+  "version": "0.0.1",
+  "description": "Module to create an APNG file from a series a PNG images",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickpharrison/apng-maker.git"
+  },
+  "keywords": [
+    "APNG",
+    "animated",
+    "PNG",
+    "GIF"
+  ],
+  "author": "nickpharrison",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nickpharrison/apng-maker/issues"
+  },
+  "homepage": "https://github.com/nickpharrison/apng-maker#readme",
+  "dependencies": {
+    "crc-32": "^1.2.0"
+  }
+}
