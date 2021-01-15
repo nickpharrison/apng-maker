@@ -6,16 +6,16 @@ const crc32 = require('crc-32');
 const getImageHeaderChunk = (width, height) => {
 
 	const chunk = Buffer.allocUnsafe(25);
-	chunk.writeUInt32BE(13, 0);                                // length of chunk data
-	chunk.write('IHDR', 4);                                    // type of chunk
-	chunk.writeUInt32BE(width, 8);                             // width
-	chunk.writeUInt32BE(height, 12);                           // height
-	chunk.writeUInt8(8, 16);                                   // bit depth
-	chunk.writeUInt8(6, 17);                                   // colour type
-	chunk.writeUInt8(0, 18);                                   // compression method
-	chunk.writeUInt8(0, 19);                                   // interlace method
-	chunk.writeUInt8(0, 20);                                   // interlace method
-	chunk.writeInt32BE(crc32.buf(chunk.slice(4, 21)), 21);     // crc
+	chunk.writeUInt32BE(13, 0);                              // length of chunk data
+	chunk.write('IHDR', 4);                                  // type of chunk
+	chunk.writeUInt32BE(width, 8);                           // width
+	chunk.writeUInt32BE(height, 12);                         // height
+	chunk.writeUInt8(8, 16);                                 // bit depth
+	chunk.writeUInt8(6, 17);                                 // colour type
+	chunk.writeUInt8(0, 18);                                 // compression method
+	chunk.writeUInt8(0, 19);                                 // interlace method
+	chunk.writeUInt8(0, 20);                                 // interlace method
+	chunk.writeInt32BE(crc32.buf(chunk.slice(4, 21)), 21);   // crc
 	return chunk;
 
 }
@@ -23,11 +23,11 @@ const getImageHeaderChunk = (width, height) => {
 const getAnimationControlChunk = (numberOfLoops, numberOfFrames) => {
 
 	const chunk = Buffer.allocUnsafe(20);
-	chunk.writeUInt32BE(8, 0);                                 // length of chunk data
-	chunk.write('acTL', 4);                                    // type of chunk
-	chunk.writeUInt32BE(numberOfFrames, 8);                    // number of frames
-	chunk.writeUInt32BE(numberOfLoops, 12);                    // number of times to loop
-	chunk.writeInt32BE(crc32.buf(chunk.slice(4, 16)), 16);     // crc
+	chunk.writeUInt32BE(8, 0);                               // length of chunk data
+	chunk.write('acTL', 4);                                  // type of chunk
+	chunk.writeUInt32BE(numberOfFrames, 8);                  // number of frames
+	chunk.writeUInt32BE(numberOfLoops, 12);                  // number of times to loop
+	chunk.writeInt32BE(crc32.buf(chunk.slice(4, 16)), 16);   // crc
 	return chunk;
 
 }
@@ -35,18 +35,18 @@ const getAnimationControlChunk = (numberOfLoops, numberOfFrames) => {
 const getFrameControlChunk = (sequenceNumber, width, height) => {
 
 	const chunk = Buffer.allocUnsafe(38);
-	chunk.writeUInt32BE(26, 0);                                // length of chunk data
-	chunk.write('fcTL', 4);                                    // type of chunk
-	chunk.writeUInt32BE(sequenceNumber, 8);                    // sequence number
-	chunk.writeUInt32BE(width, 12);                            // width
-	chunk.writeUInt32BE(height, 16);                           // height
-	chunk.writeUInt32BE(0, 20);                                // x offset
-	chunk.writeUInt32BE(0, 24);                                // y offset
-	chunk.writeUInt16BE(1, 28);                                // frame delay - fraction numerator
-	chunk.writeUInt16BE(2, 30);                                // frame delay - fraction denominator
-	chunk.writeUInt8(1, 32);                                   // dispose mode
-	chunk.writeUInt8(0, 33);                                   // blend mode
-	chunk.writeInt32BE(crc32.buf(chunk.slice(4, 34)), 34);     // crc
+	chunk.writeUInt32BE(26, 0);                              // length of chunk data
+	chunk.write('fcTL', 4);                                  // type of chunk
+	chunk.writeUInt32BE(sequenceNumber, 8);                  // sequence number
+	chunk.writeUInt32BE(width, 12);                          // width
+	chunk.writeUInt32BE(height, 16);                         // height
+	chunk.writeUInt32BE(0, 20);                              // x offset
+	chunk.writeUInt32BE(0, 24);                              // y offset
+	chunk.writeUInt16BE(1, 28);                              // frame delay - fraction numerator
+	chunk.writeUInt16BE(2, 30);                              // frame delay - fraction denominator
+	chunk.writeUInt8(1, 32);                                 // dispose mode
+	chunk.writeUInt8(0, 33);                                 // blend mode
+	chunk.writeInt32BE(crc32.buf(chunk.slice(4, 34)), 34);   // crc
 	return chunk;
 
 }
@@ -54,9 +54,9 @@ const getFrameControlChunk = (sequenceNumber, width, height) => {
 const getEndChunk = () => {
 
 	const chunk = Buffer.allocUnsafe(12);
-	chunk.writeUInt32BE(0, 0);                                     // length of chunk data
-	chunk.write('IEND', 4);                                        // type of chunk
-	chunk.writeUInt32BE(crc32.buf(chunk.slice(4, 8)) >>> 0, 8);    // crc
+	chunk.writeUInt32BE(0, 0);                                 // length of chunk data
+	chunk.write('IEND', 4);                                    // type of chunk
+	chunk.writeInt32BE(crc32.buf(chunk.slice(4, 8)), 8);       // crc
 	return chunk;
 
 }
@@ -436,8 +436,6 @@ class APNGMaker {
 		} else {
 			fctlSequenceNum = null
 		}
-
-		const fctlSequenceNum = includeAsFrame ? this._fctlsequenceNum++ : null;
 
 		this._defaultimageadded = true;
 		const frameStream = this._getFrameStream(input);
